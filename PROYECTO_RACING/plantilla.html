@@ -214,6 +214,161 @@
       .player-card-simple img { width: 50px; height: 50px; }
       .player-card-simple .name { font-size: 0.9rem; }
     }
+
+            /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #02311a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* ===== HEADER ===== */
+        .main-header {
+            background: #006634;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            margin-left: 0;
+        }
+
+        .logo {
+            height: 50px;
+            display: block;
+        }
+
+        .main-nav {
+            display: flex;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            margin-right: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        /* .nav-links a:hover,
+        .nav-links .active a {
+            color: #ffd700;
+        } */
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            height: 60vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .hero-overlay h1 {
+            font-size: 3rem;
+            color: #fff;
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            background: #222;
+            padding: 3rem 1rem;
+        }
+
+        .content h2 {
+            text-align: center;
+            /* color: #ffd700; */
+            margin-bottom: 1rem;
+        }
+
+        .pillar {
+            margin-bottom: 2rem;
+        }
+
+        .pillar img {
+            display: block;
+            max-width: 200px;
+            margin: 1rem auto;
+        }
+
+        /* ===== FOOTER ===== */
+        .main-footer {
+            background: #006634;
+            text-align: center;
+            padding: 1rem 0;
+            color: white;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-nav {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #006634;
+                width: 100%;
+                display: none;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .main-nav.active {
+                display: flex;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+                margin: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
   </style>
 </head>
 <body>
@@ -222,24 +377,22 @@
   <!-- ===== ✅ HEADER CORREGIDO Y ACTUALIZADO ===== -->
   <!-- ============================================== -->
   <header class="main-header" id="main-header">
-    <div class="container">
-        <!-- Elemento Izquierda -->
-        <a href="index.html" class="logo-link"><img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo Real Racing Club" class="logo"></a>
-        
-        <!-- Contenedor para agrupar los elementos de la derecha -->
-        <div class="nav-wrapper">
-            <nav class="main-nav">
+    <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <img src="img/logo.png" alt="Logo Real Racing Club" class="logo">
+            </a>
+            <button id="hamburger-menu" class="hamburger" aria-label="Menú">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="main-nav" class="main-nav">
                 <ul class="nav-links">
                     <li><a href="index.html">Inicio</a></li>
-                    <li><a href="entradas.html">Entradas</a></li>
                     <li><a href="plantilla.html">Plantilla 25/26</a></li>
-                    <!-- Elemento que faltaba en el menú de escritorio -->
-                    <li><a href="historia.html">Historia</a></li>
+                    <li class="active"><a href="historia.html">Historia</a></li>
+                    <li><a href="entradas.html">Entradas</a></li>
                 </ul>
             </nav>
-            <button class="hamburger-menu"><span></span><span></span><span></span></button>
         </div>
-    </div>
   </header>
   
   <div class="mobile-nav-overlay">
