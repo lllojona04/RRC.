@@ -74,8 +74,23 @@
         .nav-links a:hover { color: var(--accent-yellow); }
         .nav-links a:hover::after { width: 100%; }
         
-        .hamburger-menu { display: flex; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0; }
-        .hamburger-menu span { display: block; width: 28px; height: 3px; background-color: var(--white); border-radius: 2px; }
+        .hamburger-menu { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 5px; 
+            cursor: pointer; 
+            background: none; 
+            border: none; 
+            padding: 0; 
+        }
+        .hamburger-menu span { 
+            display: block; 
+            width: 28px; 
+            height: 3px; 
+            background-color: var(--white); 
+            border-radius: 2px; 
+            transition: all 0.3s ease;
+        }
 
         .mobile-nav-overlay { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background-color: var(--bg-dark); z-index: 1001; transition: right 0.4s ease-in-out; box-shadow: -5px 0 15px rgba(0,0,0,0.3); }
         .mobile-nav-overlay.is-open { right: 0; }
@@ -94,7 +109,6 @@
         .carousel-item::before { 
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
-            /* Solución para que los enlaces del carrusel funcionen en móviles */
             pointer-events: none;
         }
         
@@ -155,7 +169,6 @@
         @media (max-width: 991px) { .main-header .container { padding: 0 30px; } }
         @media (max-width: 768px) { .carousel-caption h1 { font-size: 2.5rem; } .carousel-caption p { font-size: 1rem; } }
 
-        /* ✅ ESTILOS PARA EL BOTÓN FLOTANTE DE LLAMADA */
         #floating-phone-btn {
             position: fixed;
             bottom: 25px;
@@ -170,171 +183,18 @@
             align-items: center;
             font-size: 24px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            z-index: 1002; /* Para que esté por encima del contenido */
+            z-index: 1002;
             transition: all 0.3s ease;
         }
 
         #floating-phone-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-            background-color: #008752; /* Un verde un poco más brillante */
+            background-color: #008752;
         }
 
-                /* ===== RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== BLOQUE DE CSS CONFLICTIVO ELIMINADO ===== */
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: #111;
-            color: #fff;
-            line-height: 1.6;
-        }
-
-        /* ===== HEADER ===== */
-        .main-header {
-            background: #006634;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .logo-link {
-            display: flex;
-            align-items: center;
-            margin-left: 0;
-        }
-
-        .logo {
-            height: 50px;
-            display: block;
-        }
-
-        .main-nav {
-            display: flex;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            margin-right: 1rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover,
-        .nav-links .active a {
-            color: #ffd700;
-        }
-
-        .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-            margin-right: 1rem;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            height: 60vh;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-
-        .hero-overlay h1 {
-            font-size: 3rem;
-            color: #fff;
-        }
-
-        /* ===== CONTENT ===== */
-        .content {
-            background: #222;
-            padding: 3rem 1rem;
-        }
-
-        .content h2 {
-            text-align: center;
-            color: #ffd700;
-            margin-bottom: 1rem;
-        }
-
-        .pillar {
-            margin-bottom: 2rem;
-        }
-
-        .pillar img {
-            display: block;
-            max-width: 200px;
-            margin: 1rem auto;
-        }
-
-        /* ===== FOOTER ===== */
-        .main-footer {
-            background: #006634;
-            text-align: center;
-            padding: 1rem 0;
-            color: white;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .main-nav {
-                position: absolute;
-                top: 100%;
-                right: 0;
-                background: #006634;
-                width: 100%;
-                display: none;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .main-nav.active {
-                display: flex;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-                margin: 0;
-            }
-
-            .hamburger {
-                display: block;
-            }
-        }
     </style>
 </head>
 <body>
@@ -347,23 +207,26 @@
     </div>
 
     <div id="main-wrapper">
+        <!-- ✅ HEADER CORREGIDO PARA QUE FUNCIONE EL MENÚ -->
         <header class="main-header" id="main-header">
-           <div class="header-inner">
-            <a href="index.html" class="logo-link">
-                <img src="img/logo.png" alt="Logo Real Racing Club" class="logo">
-            </a>
-            <button id="hamburger-menu" class="hamburger" aria-label="Menú">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav id="main-nav" class="main-nav">
-                <ul class="nav-links">
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="plantilla.html">Plantilla 25/26</a></li>
-                    <li><a href="historia.html">Historia</a></li>
-                    <li><a href="entradas.html">Entradas</a></li>
-                </ul>
-            </nav>
-        </div>
+           <div class="container">
+                <a href="index.html">
+                    <img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo Real Racing Club" class="logo">
+                </a>
+                <nav class="main-nav">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="plantilla.html">Plantilla 25/26</a></li>
+                        <li><a href="historia.html">Historia</a></li>
+                        <li><a href="entradas.html">Entradas</a></li>
+                    </ul>
+                </nav>
+                <button class="hamburger-menu" aria-label="Abrir menú">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </header>
         
         <div class="mobile-nav-overlay">
@@ -387,27 +250,27 @@
                 <div class="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="bg-image" style="background-image: url('./img/carrusel-1.png');"></div>
+                            <!-- Corregida la ruta de la imagen para que se vea -->
+                            <div class="bg-image" style="background-image: url('img/carrusel-1.png');"></div>
                             <div class="carousel-caption">
                                 <h1>Visita Nuestra Tienda</h1>
                                 <p>La tienda deportiva que estabas esperando. Calidad, pasión y estilo en un solo lugar.</p>
-                               
                             </div>
                          </div>
                          <div class="carousel-item" data-caption-style="dark-text">
-                            <div class="bg-image" style="background-image: url('./img/carrusel.png');"></div>
+                             <!-- Corregida la ruta de la imagen para que se vea -->
+                            <div class="bg-image" style="background-image: url('img/carrusel.png');"></div>
                             <div class="carousel-caption">
                                 <h1>¡Refresca tu pasión!</h1>
                                 <p>En los días de calor, disfruta de la mejor playa cerca del estadio antes de entrar a vivir la emoción del fútbol.</p>
-                               
                             </div>
                         </div>
                         <div class="carousel-item">
+                             <!-- Corregida la ruta de la imagen para que se vea -->
                             <div class="bg-image" style="background-image: url('./img/carrusel2.png');"></div>
                             <div class="carousel-caption">
                                 <h1>Dormir por una Pasión</h1>
                                 <p>Cuando se trata de alentar al equipo de tu ciudad, ningún esfuerzo es demasiado. ¡Haz la fila y vive el sueño!</p>
-                        
                             </div>
                         </div>
                     </div>
@@ -421,8 +284,7 @@
         <footer class="main-footer">
             <div class="container footer-grid">
                 <div class="footer-col" data-scroll>
-                    <img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo Racing" class="footer-logo">
-                    <p>Propuesta Estratégica 2025</p>
+                    <p>Propuesta Estratégica 2024</p>
                 </div>
                 <div class="footer-col" data-scroll>
                     <h4>Navegación</h4>
@@ -437,7 +299,7 @@
                 <div class="footer-col" data-scroll>
                     <h4>Contacto</h4>
                     <p>
-                        <a href="https://www.google.com/maps/search/?api=1&query=Estadio+El+Sardinero,+Santander" target="_blank" rel="noopener noreferrer">
+                       
                             Estadio El Sardinero<br>
                             C/ Real Racing Club, s/n<br>
                             39005 Santander, Cantabria
@@ -449,7 +311,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2025 | Propuesta confidencial para el Real Racing Club de Santander.</p>
+                <p>© 2024 | Propuesta confidencial para el Real Racing Club de Santander.</p>
             </div>
         </footer>
     </div>
