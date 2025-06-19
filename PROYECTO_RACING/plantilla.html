@@ -6,10 +6,9 @@
   <title>Plantilla Racing de Santander 2025/26 (Responsive)</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
   <!-- Favicon -->
-    <link rel="icon" href="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- ✅ NUEVO: Añadimos la librería de iconos Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" href="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" type="image/png">
+  <!-- Librería de iconos Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     /* --- RESET Y ESTILOS GLOBALES --- */
     :root {
@@ -23,7 +22,7 @@
 
     body {
       margin: 0;
-      padding-top: 80px;
+      padding-top: 80px; /* Espacio para el header fijo */
       font-family: 'Montserrat', sans-serif;
       background-color: var(--racing-green);
       -webkit-text-size-adjust: 100%;
@@ -57,13 +56,7 @@
     .logo { height: 50px; transition: transform 0.3s ease; }
     .logo:hover { transform: scale(1.05); }
 
-    /* ✅ AÑADIDO PARA LA ALINEACIÓN CORRECTA */
-    .nav-wrapper {
-      display: flex;
-      align-items: center;
-    }
-
-    .main-nav { display: none; }
+    .main-nav { display: none; } /* Oculto por defecto, visible en desktop */
     .main-nav .nav-links {
       list-style: none; padding: 0; margin: 0; display: flex; gap: 30px;
     }
@@ -80,15 +73,18 @@
     .main-nav a:hover { color: var(--accent-yellow); }
     .main-nav a:hover::after { transform: scaleX(1); transform-origin: left; }
 
+    /* --- ✅ BOTÓN HAMBURGUESA (MÓVIL) --- */
     .hamburger-menu {
-        display: flex; flex-direction: column; gap: 5px;
-        cursor: pointer; background: none; border: none; padding: 0;
-    }
-    .hamburger-menu span {
-        display: block; width: 28px; height: 3px;
-        background-color: var(--white); border-radius: 2px;
+        display: flex; /* Visible por defecto, oculto en desktop */
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.8rem;
+        cursor: pointer;
+        padding: 5px;
     }
 
+    /* --- ✅ PANEL DE NAVEGACIÓN MÓVIL --- */
     .mobile-nav-overlay {
         position: fixed; top: 0; right: -100%; width: 100%;
         max-width: 400px; height: 100%; background-color: var(--bg-dark);
@@ -98,7 +94,8 @@
     .mobile-nav-overlay.is-open { right: 0; }
     .mobile-nav-header {
         display: flex; justify-content: space-between; align-items: center;
-        padding: 15px 20px; border-bottom: 1px solid #252525;
+        padding: 15px 25px; border-bottom: 1px solid #252525;
+        height: 81px; /* Para alinear con el header principal */
     }
     .mobile-nav-header .logo { height: 45px; width: auto; }
     .close-menu {
@@ -108,7 +105,7 @@
     .mobile-nav-links ul { list-style: none; padding: 0; margin: 0; }
     .mobile-nav-links ul li { border-bottom: 1px solid #252525; }
     .mobile-nav-links a {
-        display: block; padding: 20px; color: var(--white);
+        display: block; padding: 20px 25px; color: var(--white);
         font-weight: 700; font-size: 1.1rem; text-decoration: none;
         transition: background-color 0.3s, color 0.3s;
     }
@@ -143,58 +140,31 @@
         padding: 20px;
         border: 1px solid rgba(255,255,255,0.1);
     }
-    .position-group {
-        margin-bottom: 30px;
-    }
-    .position-group:last-child {
-        margin-bottom: 0;
-    }
+    .position-group { margin-bottom: 30px; }
+    .position-group:last-child { margin-bottom: 0; }
     .position-group h4 {
-        color: var(--accent-yellow);
-        font-size: 1.1rem;
-        text-transform: uppercase;
-        border-bottom: 1px solid var(--accent-yellow);
-        padding-bottom: 10px;
-        margin-bottom: 20px;
+        color: var(--accent-yellow); font-size: 1.1rem; text-transform: uppercase;
+        border-bottom: 1px solid var(--accent-yellow); padding-bottom: 10px; margin-bottom: 20px;
     }
-    .player-entry {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 15px;
-        flex-wrap: wrap; 
-    }
-    .player-card-simple {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-    .player-card-simple img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        border: 2px solid var(--white);
-    }
-    .player-card-simple .name {
-        color: var(--white);
-        font-weight: 600;
-        font-size: 1rem;
-    }
-    .separator {
-        color: rgba(255, 255, 255, 0.7);
-        font-style: italic;
-        font-size: 0.9rem;
-    }
-
+    .player-entry { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+    .player-card-simple { display: flex; align-items: center; gap: 12px; }
+    .player-card-simple img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--white); }
+    .player-card-simple .name { color: var(--white); font-weight: 600; font-size: 1rem; }
+    .separator { color: rgba(255, 255, 255, 0.7); font-style: italic; font-size: 0.9rem; }
 
     footer { text-align: center; padding: 20px; background-color: #005230; color: white; margin-top: 30px; font-size: 0.8em; }
 
+    /* --- ✅ REGLAS RESPONSIVE --- */
     @media (min-width: 993px) {
       .main-nav { display: flex; }
-      .hamburger-menu { display: none; }
+      .hamburger-menu { display: none; } /* Ocultar hamburguesa en desktop */
       .page-title-plantilla h1 { font-size: 3em; }
       .page-title-plantilla h2 { font-size: 1.4em; }
       .mascota-card { width: 220px; }
+    }
+
+    @media (max-width: 992px) {
+        .main-nav { display: none; } /* Ocultar menú normal en móvil */
     }
 
     @media (max-width: 767px) {
@@ -210,202 +180,51 @@
       td.player-name { display: flex; align-items: center; text-align: left; padding: 15px; background-color: #f8f9fa; border-top-left-radius: 10px; border-top-right-radius: 10px; }
       td.player-name::before { display: none; }
       .player-photo { width: 50px; height: 50px; }
-
       .player-card-simple img { width: 50px; height: 50px; }
       .player-card-simple .name { font-size: 0.9rem; }
     }
-
-            /* ===== RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: #02311a;
-            color: #fff;
-            line-height: 1.6;
-        }
-
-        /* ===== HEADER ===== */
-        .main-header {
-            background: #006634;
-            top: 0;
-            z-index: 1000;
-            width: 100%;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .logo-link {
-            display: flex;
-            align-items: center;
-            margin-left: 0;
-        }
-
-        .logo {
-            height: 50px;
-            display: block;
-        }
-
-        .main-nav {
-            display: flex;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            margin-right: 1rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            transition: color 0.3s;
-        }
-
-        /* .nav-links a:hover,
-        .nav-links .active a {
-            color: #ffd700;
-        } */
-
-        .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-            margin-right: 1rem;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            height: 60vh;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            text-align: center;
-            padding: 3rem 1rem;
-        }
-
-        .hero-overlay h1 {
-            font-size: 3rem;
-            color: #fff;
-        }
-
-        /* ===== CONTENT ===== */
-        .content {
-            background: #222;
-            padding: 3rem 1rem;
-        }
-
-        .content h2 {
-            text-align: center;
-            /* color: #ffd700; */
-            margin-bottom: 1rem;
-        }
-
-        .pillar {
-            margin-bottom: 2rem;
-        }
-
-        .pillar img {
-            display: block;
-            max-width: 200px;
-            margin: 1rem auto;
-        }
-
-        /* ===== FOOTER ===== */
-        .main-footer {
-            background: #006634;
-            text-align: center;
-            padding: 1rem 0;
-            color: white;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .main-nav {
-                position: absolute;
-                top: 100%;
-                right: 0;
-                background: #006634;
-                width: 100%;
-                display: none;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .main-nav.active {
-                display: flex;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-                margin: 0;
-            }
-
-            .hamburger {
-                display: block;
-            }
-        }
   </style>
 </head>
 <body>
 
   <!-- ============================================== -->
-  <!-- ===== ✅ HEADER CORREGIDO Y ACTUALIZADO ===== -->
+  <!-- ===== ✅ HEADER UNIFICADO Y FUNCIONAL ===== -->
   <!-- ============================================== -->
   <header class="main-header" id="main-header">
-    <div class="header-inner">
-            <a href="index.html" class="logo-link">
-                <img src="img/logo.png" alt="Logo Real Racing Club" class="logo">
-            </a>
-            <button id="hamburger-menu" class="hamburger" aria-label="Menú">
-                <i class="fas fa-bars"></i>
-            </button>
-            <nav id="main-nav" class="main-nav">
-                <ul class="nav-links">
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="plantilla.html">Plantilla 25/26</a></li>
-                    <li class="active"><a href="historia.html">Historia</a></li>
-                    <li><a href="entradas.html">Entradas</a></li>
-                </ul>
-            </nav>
-        </div>
+    <div class="container">
+        <a href="index.html" class="logo-link">
+            <img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo Real Racing Club" class="logo">
+        </a>
+        
+        <!-- Menú de Navegación para Desktop -->
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li class="active"><a href="plantilla.html">Plantilla 25/26</a></li>
+                <li><a href="historia.html">Historia</a></li>
+                <li><a href="entradas.html">Entradas</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Botón de Hamburguesa para Móvil -->
+        <button id="hamburger-btn" class="hamburger-menu" aria-label="Abrir menú">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
   </header>
   
-  <div class="mobile-nav-overlay">
+  <!-- Panel de Navegación Móvil (Overlay) -->
+  <div class="mobile-nav-overlay" id="mobile-nav">
       <div class="mobile-nav-header">
-          <img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo" class="logo">
-          <button class="close-menu">×</button>
+          <img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo Racing" class="logo">
+          <button class="close-menu" id="close-btn" aria-label="Cerrar menú">×</button>
       </div>
       <nav class="mobile-nav-links">
           <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="entradas.html">Entradas</a></li>
             <li><a href="plantilla.html">Plantilla 25/26</a></li>
             <li><a href="historia.html">Nuestra Historia</a></li>
+            <li><a href="entradas.html">Entradas</a></li>
           </ul>
       </nav>
   </div>
@@ -450,17 +269,17 @@
                 <h4>Defensas</h4>
                 <div class="player-entry">
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p174955/512x512/p174955_t189_2024_1_003_000.png" alt="Saúl García"><span class="name">Saúl García</span></div>
-                    <span class="separator">puede cambiar por</span>
+                    <span class="separator">o</span>
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p591409/512x512/p591409_t189_2024_1_003_000.png" alt="Mario García"><span class="name">Mario García</span></div>
                 </div>
                  <div class="player-entry">
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p179372/512x512/p179372_t189_2024_1_003_000.png" alt="Manu Hernando"><span class="name">Manu Hernando</span></div>
-                    <span class="separator">puede cambiar por</span>
+                    <span class="separator">o</span>
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p437821/512x512/p437821_t189_2024_1_003_000.png" alt="Javi Montero"><span class="name">Javi Montero</span></div>
                 </div>
                  <div class="player-entry">
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p500285/512x512/p500285_t189_2024_1_003_000.png" alt="Álvaro Mantilla"><span class="name">Álvaro Mantilla</span></div>
-                    <span class="separator">puede cambiar por</span>
+                    <span class="separator">o</span>
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p500810/512x512/p500810_t189_2024_1_003_000.png" alt="Javi Castro"><span class="name">Javi Castro</span></div>
                 </div>
                  <div class="player-entry">
@@ -471,7 +290,7 @@
                 <h4>Centrocampistas</h4>
                 <div class="player-entry">
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p464168/512x512/p464168_t189_2024_1_003_000.png" alt="Íñigo Sainz-Maza"><span class="name">Íñigo Sainz-Maza</span></div>
-                    <span class="separator">puede cambiar por</span>
+                    <span class="separator">o</span>
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p513947/512x512/p513947_t189_2024_1_003_000.png" alt="Aritz Aldasoro"><span class="name">Aritz Aldasoro</span></div>
                 </div>
                 <div class="player-entry">
@@ -485,12 +304,12 @@
                 <h4>Delanteros</h4>
                  <div class="player-entry">
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p553751/512x512/p553751_t189_2024_1_003_000.png" alt="Juan Carlos Arana"><span class="name">Juan Carlos Arana</span></div>
-                    <span class="separator">puede cambiar por</span>
+                    <span class="separator">o</span>
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p444284/512x512/p444284_t189_2024_1_003_000.png" alt="Andrés Martín"><span class="name">Andrés Martín</span></div>
                 </div>
                 <div class="player-entry">
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p517334/512x512/p517334_t189_2024_1_003_000.png" alt="Suleiman"><span class="name">Suleiman</span></div>
-                    <span class="separator">puede cambiar por</span>
+                    <span class="separator">o</span>
                     <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p588853/512x512/p588853_t189_2024_1_003_000.png" alt="Jeremy"><span class="name">Jeremy</span></div>
                 </div>
             </div>
@@ -503,21 +322,48 @@
     <p>Racing de Santander © Temporada 2025/26 – Actualizado en junio de 2025</p>
   </footer>
 
+  <!-- ============================================== -->
+  <!-- ===== ✅ SCRIPT CORREGIDO Y FUNCIONAL ===== -->
+  <!-- ============================================== -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const hamburgerBtn = document.querySelector('.hamburger-menu');
-        const closeBtn = document.querySelector('.close-menu');
-        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+        // Seleccionamos los elementos por su ID para mayor precisión
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const closeBtn = document.getElementById('close-btn');
+        const mobileNavOverlay = document.getElementById('mobile-nav');
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
         const body = document.body;
 
-        const openNav = () => { if (mobileNavOverlay) { mobileNavOverlay.classList.add('is-open'); body.classList.add('mobile-nav-open'); } };
-        const closeNav = () => { if (mobileNavOverlay) { mobileNavOverlay.classList.remove('is-open'); body.classList.remove('mobile-nav-open'); } };
+        // Función para abrir el menú móvil
+        const openNav = () => {
+            if (mobileNavOverlay) {
+                mobileNavOverlay.classList.add('is-open');
+                body.classList.add('mobile-nav-open'); // Bloquea el scroll del body
+            }
+        };
 
-        if (hamburgerBtn) hamburgerBtn.addEventListener('click', openNav);
-        if (closeBtn) closeBtn.addEventListener('click', closeNav);
-        mobileNavLinks.forEach(link => link.addEventListener('click', closeNav));
+        // Función para cerrar el menú móvil
+        const closeNav = () => {
+            if (mobileNavOverlay) {
+                mobileNavOverlay.classList.remove('is-open');
+                body.classList.remove('mobile-nav-open'); // Desbloquea el scroll del body
+            }
+        };
 
+        // Asignamos los eventos a los botones
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', openNav);
+        }
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeNav);
+        }
+        
+        // Cierra el menú si se hace clic en un enlace
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeNav);
+        });
+
+        // Efecto de scroll en el header
         const header = document.getElementById('main-header');
         if (header) {
             window.addEventListener('scroll', () => {
