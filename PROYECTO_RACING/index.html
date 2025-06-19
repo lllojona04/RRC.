@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Racing Club</title>
+    <!-- Favicon -->
+    <link rel="icon" href="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --racing-green: #006B3F;
+            --accent-yellow: #f3ca20;
+            --bg-dark: #1a1a1a;
+            --bg-content-box: #252525;
+            --white: #ffffff;
+            --text-grey: #a0a0a0;
+            --black: #000000;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--white);
+            transition: overflow 0.4s ease;
+        }
+        
+        body.mobile-nav-open { overflow: hidden; }
+
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://media.gettyimages.com/id/1973662709/es/foto/santander-spain-stadium-el-sardinero-of-racing-club-santander-during-the-spanish-copa-del-rey.jpg?s=612x612&w=0&k=20&c=L-3CWVN9OwEw_-tO22eUONtx5hdp-qRDt9GbSgoLjmA=');
+            background-size: cover; background-position: center; z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease-out; overflow: hidden;
+        }
+        #loading-screen::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); z-index: 1;
+        }
+        @keyframes fade-in-elegant { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .loading-content { text-align: center; position: relative; z-index: 2; }
+        .loading-text { font-size: 1.4rem; color: var(--text-grey); font-weight: 700; letter-spacing: 4px; animation: fade-in-elegant 1s ease-out; }
+        .loading-subtext { font-size: 4rem; font-weight: 900; color: var(--racing-green); margin-top: 5px; letter-spacing: 3px; animation: fade-in-elegant 1s 0.2s ease-out backwards; }
+        body.loaded #loading-screen { opacity: 0; pointer-events: none; }
+        #main-wrapper { opacity: 0; transition: opacity 0.8s ease-in; }
+        body.loaded #main-wrapper { opacity: 1; }
+     
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { color: inherit; text-decoration: none; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        
+        .main-header {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 15px 0; background-color: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(10px); border-bottom: 1px solid transparent;
+            transition: background-color 0.4s ease, border-bottom 0.4s ease, padding 0.4s ease;
+        }
+        .main-header.scrolled { background-color: var(--bg-dark); border-bottom: 1px solid #333; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { height: 60px; width: auto; transition: transform 0.3s ease; }
+        .logo:hover { transform: scale(1.05); }
+
+        .main-nav { display: none; }
+        .main-nav .nav-links { display: flex; gap: 40px; }
+        .nav-links a { font-weight: 700; text-transform: uppercase; font-size: 0.9rem; position: relative; padding: 5px 0; transition: color 0.3s ease; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 3px; background-color: var(--accent-yellow); transition: width 0.4s ease; }
+        .nav-links a:hover { color: var(--accent-yellow); }
+        .nav-links a:hover::after { width: 100%; }
+        
+        .hamburger-menu { display: flex; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0; }
+        .hamburger-menu span { display: block; width: 28px; height: 3px; background-color: var(--white); border-radius: 2px; }
+
+        .mobile-nav-overlay { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background-color: var(--bg-dark); z-index: 1001; transition: right 0.4s ease-in-out; box-shadow: -5px 0 15px rgba(0,0,0,0.3); }
+        .mobile-nav-overlay.is-open { right: 0; }
+        .mobile-nav-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--bg-content-box); }
+        .mobile-nav-header .logo { height: 45px; width: auto; }
+        .close-menu { font-size: 2.5rem; font-weight: 300; color: var(--white); cursor: pointer; background: none; border: none; padding: 0; line-height: 1; }
+        .mobile-nav-links ul li { border-bottom: 1px solid var(--bg-content-box); }
+        .mobile-nav-links a { display: block; padding: 20px; color: var(--white); font-weight: 700; font-size: 1.1rem; transition: background-color 0.3s, color 0.3s; }
+        .mobile-nav-links a:hover { color: var(--accent-yellow); background-color: var(--bg-content-box); }
+
+        @keyframes ken-burns { 0% { transform: scale(1.1) translate(0, 0); } 100% { transform: scale(1.0) translate(2%, -1%); } }
+        .carousel-section { height: 100vh; position: relative; overflow: hidden; }
+        .carousel-item { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.2s ease-in-out; }
+        .carousel-item.active { opacity: 1; }
+        .carousel-item::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2)); }
+        .carousel-item.active .bg-image { animation: ken-burns 15s infinite alternate; }
+        .bg-image { width: 100%; height: 100%; background-size: cover; background-position: center; transition: transform 15s ease-out; }
+        .carousel-caption { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; text-align: center; color: var(--white); }
+        .carousel-caption h1, .carousel-caption p, .carousel-link { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out 0.5s, transform 0.8s ease-out 0.5s; }
+        .carousel-item.active .carousel-caption h1, .carousel-item.active .carousel-caption p, .carousel-item.active .carousel-link { opacity: 1; transform: translateY(0); }
+        .carousel-caption h1 { font-size: 3.5rem; font-weight: 900; text-transform: uppercase; text-shadow: 2px 2px 15px rgba(0,0,0,0.7); }
+        .carousel-caption p { font-size: 1.2rem; margin-top: 10px; }
+        
+        .carousel-item[data-caption-style="dark-text"] .carousel-caption { color: var(--black); }
+        .carousel-item[data-caption-style="dark-text"] .carousel-caption h1 { color: var(--black); text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.7); }
+        .carousel-item[data-caption-style="dark-text"]::before { background: linear-gradient(to top, rgba(255,255,255,0.6), rgba(255,255,255,0.1)); }
+        
+        .carousel-link {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 25px;
+            border: 2px solid var(--accent-yellow) !important;
+            color: var(--accent-yellow) !important;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(3px);
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-link:hover {
+            background-color: var(--accent-yellow);
+            color: var(--black) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(243, 202, 32, 0.5);
+        }
+        
+        /* ✅ 1. AÑADIMOS ESTA NUEVA REGLA PARA EL BOTÓN ESPECÍFICO */
+        .carousel-link.no-hover-effect:hover {
+            background-color: rgba(0, 0, 0, 0.4); /* Mantiene el fondo original */
+            color: var(--accent-yellow) !important; /* Mantiene el texto amarillo */
+            box-shadow: none; /* Opcional: elimina también la sombra en hover */
+        }
+        
+        .carousel-control { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); color: var(--white); border: none; font-size: 2rem; padding: 10px 15px; cursor: pointer; transition: background-color 0.3s ease; }
+        .carousel-control:hover { background: rgba(0,0,0,0.6); }
+        .carousel-control.prev { left: 20px; }
+        .carousel-control.next { right: 20px; }
+        .carousel-indicators { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; }
+        .carousel-indicators span { width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255,255,255,0.5); cursor: pointer; transition: background-color 0.3s ease; }
+        .carousel-indicators span.active { background-color: var(--white); }
+        
+        [data-scroll] { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        [data-scroll].visible { opacity: 1; transform: translateY(0); }
+        .main-footer { background-color: var(--black); padding-top: 60px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; padding-bottom: 40px; }
+        .footer-logo { width: 80px; margin-bottom: 15px; }
+        .footer-col h4 { font-size: 1.1rem; text-transform: uppercase; margin-bottom: 20px; color: var(--white); }
+        .footer-col p, .footer-col a { color: var(--text-grey); line-height: 1.8; transition: color 0.3s ease; }
+        .footer-col a:hover { color: var(--racing-green); }
+        .footer-bottom { padding: 20px 0; text-align: center; border-top: 1px solid #222; color: var(--text-grey); font-size: 0.9rem; }
+        
+        @media (min-width: 992px) { .main-nav { display: block; } .hamburger-menu { display: none; } }
+        @media (max-width: 991px) { .main-header .container { padding: 0 30px; } }
+        @media (max-width: 768px) { .carousel-caption h1 { font-size: 2.5rem; } .carousel-caption p { font-size: 1rem; } }
+    </style>
+</head>
+<body>
+    
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-text">DESDE 1913</div>
+            <div class="loading-subtext">RRC</div>
+        </div>
+    </div>
+
+    <div id="main-wrapper">
+        <header class="main-header" id="main-header">
+            <div class="container">
+                <a href="index.html" class="logo-link"><img src="./img/logo.png" alt="Logo Real Racing Club" class="logo"></a>
+                <nav class="main-nav">
+                    <ul class="nav-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="entradas.html">Entradas</a></li>
+                        <li><a href="plantilla.html">Plantilla 25/26</a></li>
+                        <li><a href="historia.html"> Historia</a></li>
+                    </ul>
+                </nav>
+                <button class="hamburger-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+        
+        <div class="mobile-nav-overlay">
+            <div class="mobile-nav-header">
+                <img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo" class="logo">
+                <button class="close-menu">×</button>
+            </div>
+            <nav class="mobile-nav-links">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="entradas.html">Entradas</a></li>
+                    <li><a href="plantilla.html">Plantilla 25/26</a></li>
+                    <li><a href="historia.html">Nuestra Historia</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    
+        <main>
+            <section class="carousel-section">
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="bg-image" style="background-image: url('./img/carrusel-1.png');"></div>
+                            <div class="carousel-caption">
+                                <h1>Visita Nuestra Tienda</h1>
+                                <p>La tienda deportiva que estabas esperando. Calidad, pasión y estilo en un solo lugar.</p>
+                                <a href="tienda.html" class="carousel-link">Ver Colección</a>
+                            </div>
+                         </div>
+                         <div class="carousel-item" data-caption-style="dark-text">
+                            <div class="bg-image" style="background-image: url('./img/carrusel.png');"></div>
+                            <div class="carousel-caption">
+                                <h1>¡Refresca tu pasión!</h1>
+                                <p>En los días de calor, disfruta de la mejor playa cerca del estadio antes de entrar a vivir la emoción del fútbol.</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Playa+del+Sardinero,+Santander" class="carousel-link" target="_blank" rel="noopener noreferrer">Ver en Mapa</a>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="bg-image" style="background-image: url('./img/carrusel2.png');"></div>
+                            <div class="carousel-caption">
+                                <h1>Dormir por una Pasión</h1>
+                                <p>Cuando se trata de alentar al equipo de tu ciudad, ningún esfuerzo es demasiado. ¡Haz la fila y vive el sueño!</p>
+                                <!-- ✅ 2. APLICAMOS LA NUEVA CLASE AQUÍ -->
+                                <a href="https://www.google.com/maps/search/?api=1&query=Taquillas+Campos+de+Sport+de+El+Sardinero" class="carousel-link no-hover-effect" target="_blank" rel="noopener noreferrer">Llegar a Taquillas</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control prev" aria-label="Anterior"><</button>
+                    <button class="carousel-control next" aria-label="Siguiente">></button>
+                    <div class="carousel-indicators"></div>
+                </div>
+            </section>
+        </main>
+    
+        <footer class="main-footer">
+            <div class="container footer-grid">
+                <div class="footer-col" data-scroll>
+                    <img src="https://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/15.png" alt="Logo Racing" class="footer-logo">
+                    <p>Propuesta Estratégica 2024</p>
+                </div>
+                <div class="footer-col" data-scroll>
+                    <h4>Navegación</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="./entradas.html">Entradas</a></li>
+                        <li><a href="./plantilla.html">Plantilla 25/26</a></li>
+                        <li><a href="./historia.html">Nuestra Historia</a></li>
+                     <li><a href="./contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col" data-scroll>
+                    <h4>Contacto</h4>
+                    <p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Estadio+El+Sardinero,+Santander" target="_blank" rel="noopener noreferrer">
+                            Estadio El Sardinero<br>
+                            C/ Real Racing Club, s/n<br>
+                            39005 Santander, Cantabria
+                        </a>
+                    </p>
+                    <p style="margin-top: 15px;">
+                        <a href="tel:+34942282828">Tel: (+34) 942 28 28 28</a>
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 | Propuesta confidencial para el Real Racing Club de Santander.</p>
+            </div>
+        </footer>
+    </div>
+
+
+    <script>
+        // El script no necesita cambios.
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => { document.body.classList.add('loaded'); }, 1500);
+            const hamburgerBtn = document.querySelector('.hamburger-menu');
+            const closeBtn = document.querySelector('.close-menu');
+            const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+            const body = document.body;
+            const openNav = () => { if (mobileNavOverlay) mobileNavOverlay.classList.add('is-open'); body.classList.add('mobile-nav-open'); };
+            const closeNav = () => { if (mobileNavOverlay) mobileNavOverlay.classList.remove('is-open'); body.classList.remove('mobile-nav-open'); };
+            if (hamburgerBtn) hamburgerBtn.addEventListener('click', openNav);
+            if (closeBtn) closeBtn.addEventListener('click', closeNav);
+            mobileNavLinks.forEach(link => { link.addEventListener('click', closeNav); });
+            const header = document.getElementById('main-header');
+            if (header) { window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 50); }); }
+            const slides = document.querySelectorAll('.carousel-item');
+            if (slides.length > 0) {
+                const prevBtn = document.querySelector('.carousel-control.prev');
+                const nextBtn = document.querySelector('.carousel-control.next');
+                const indicatorsContainer = document.querySelector('.carousel-indicators');
+                let currentIndex = 0;
+                let slideInterval;
+                if (indicatorsContainer) { slides.forEach((_, index) => { const indicator = document.createElement('span'); indicator.addEventListener('click', () => goToSlide(index)); indicatorsContainer.appendChild(indicator); }); }
+                const indicators = indicatorsContainer ? indicatorsContainer.querySelectorAll('span') : [];
+                function goToSlide(index) {
+                    if (slides[currentIndex]) slides[currentIndex].classList.remove('active');
+                    if (indicators[currentIndex]) indicators[currentIndex].classList.remove('active');
+                    currentIndex = (index + slides.length) % slides.length;
+                    if (slides[currentIndex]) slides[currentIndex].classList.add('active');
+                    if (indicators[currentIndex]) indicators[currentIndex].classList.add('active');
+                    resetInterval();
+                }
+                function nextSlide() { goToSlide(currentIndex + 1); }
+                function prevSlide() { goToSlide(currentIndex - 1); }
+                function startInterval() { slideInterval = setInterval(nextSlide, 10000); }
+                function resetInterval() { clearInterval(slideInterval); startInterval(); }
+                if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+                if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+                goToSlide(0);
+                startInterval();
+            }
+            const scrollElements = document.querySelectorAll('[data-scroll]');
+            if (scrollElements.length > 0) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                scrollElements.forEach(el => observer.observe(el));
+            }
+        });
+    </script>
+</body>
+</html>
