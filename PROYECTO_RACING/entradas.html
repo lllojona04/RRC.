@@ -184,6 +184,7 @@
         <a href="./index.html" class="header-logo-link">
             <img src="./img/logo.png" alt="Logo Real Racing Club" class="header-logo">
         </a>
+        <!-- MENÚ DE NAVEGACIÓN SIN EL ENLACE A "TIENDA" -->
         <nav class="desktop-nav">
             <ul>
                 <li><a href="./index.html">Inicio</a></li>
@@ -200,6 +201,7 @@
             <img src="./img/logo.png" alt="Logo" class="logo">
             <button class="close-menu">×</button>
         </div>
+        <!-- MENÚ MÓVIL SIN EL ENLACE A "TIENDA" -->
         <nav class="mobile-nav-links">
             <ul>
                 <li><a href="./index.html">Inicio</a></li>
@@ -226,19 +228,27 @@
                 <p class="subtitle">Venta oficial de entradas</p>
             </header>
             
+            <!-- ============================================== -->
+            <!-- ===== ✅ SECCIÓN DE NAVEGACIÓN MODIFICADA ===== -->
+            <!-- ============================================== -->
             <nav class="landing-nav">
                 <div class="nav-row">
-                    <a href="https://abonados.realracingclub.es/" class="nav-box">
+                    <a href="https://abonados.realracingclub.es/" target="_blank" rel="noopener noreferrer" class="nav-box">
                         <span class="box-title">Portal de Abonado</span>
                     </a>
-                    <a href="https://youtu.be/6CSMRM-iyDo?si=mHl_qXGk8oQuLadd" class="nav-box">
+                    <a href="https://youtu.be/6CSMRM-iyDo?si=mHl_qXGk8oQuLadd" target="_blank" rel="noopener noreferrer" class="nav-box">
                         <span class="box-title">video 360 campos</span>
                     </a>
                 </div>
                 <div class="nav-row">
-                    <a href="https://bstadium.es/tours-originales/tour-interactivo-el-sardinero-racing-club-de-santander/" class="nav-box">
+                    <a href="https://bstadium.es/tours-originales/tour-interactivo-el-sardinero-racing-club-de-santander/" target="_blank" rel="noopener noreferrer" class="nav-box">
                         <span class="box-title">Tour El Sardinero</span>
-                        <span class="box-subtitle">Real Racing Club</span>
+                        <span class="box-subtitle">Experiencia Interactiva</span>
+                    </a>
+                    <!-- AQUÍ ESTÁ EL NUEVO BOTÓN PARA LA TIENDA -->
+                    <a href="https://tienda.realracingclub.es/" target="_blank" rel="noopener noreferrer" class="nav-box">
+                        <span class="box-title">Tienda Oficial</span>
+                        <span class="box-subtitle">Equipaciones y Merchandising</span>
                     </a>
                 </div>
             </nav>
@@ -295,6 +305,10 @@
                 link.addEventListener('click', function(event) {
                     const destinationUrl = new URL(this.href, window.location.origin).href;
                     const currentUrl = new URL(window.location.href).href;
+
+                    if (this.target === '_blank') {
+                        return; // No aplicar fade-out para enlaces que abren en nueva pestaña
+                    }
 
                     if (destinationUrl === currentUrl) {
                         if (mobileNavOverlay.classList.contains('is-open')) {
