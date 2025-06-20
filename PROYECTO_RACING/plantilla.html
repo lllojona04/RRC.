@@ -129,6 +129,7 @@
         border-radius: 10px;
         padding: 20px;
         border: 1px solid rgba(255,255,255,0.1);
+        overflow-x: auto; /* Permite scroll horizontal si es necesario */
     }
     
     .position-group {
@@ -156,7 +157,8 @@
         font-style: italic; 
         font-size: 0.9rem;
         text-align: center;
-        white-space: nowrap; /* ✅ AÑADIDO PARA EVITAR SALTOS DE LÍNEA */
+        white-space: nowrap;
+        padding: 0 30px; 
     }
 
     footer { text-align: center; padding: 20px; background-color: #005230; color: white; margin-top: 30px; font-size: 0.8em; }
@@ -174,9 +176,14 @@
         .main-nav { display: none; }
     }
 
+    /* ==================================================================== */
+    /* ===== ✅ BLOQUE RESPONSIVE MODIFICADO PARA MANTENER EL DISEÑO ===== */
+    /* ==================================================================== */
     @media (max-width: 767px) {
       .page-title-plantilla h1 { font-size: 1.6em; }
       .page-title-plantilla h2 { font-size: 0.9em; }
+      
+      /* Estilos para la tabla responsive (sin cambios) */
       .table-container { overflow-x: hidden; padding: 0; background-color: transparent; box-shadow: none; }
       table { border: 0; }
       thead { display: none; }
@@ -188,19 +195,31 @@
       td.player-name::before { display: none; }
       .player-photo { width: 50px; height: 50px; }
       
-      .position-group {
-          grid-template-columns: 1fr;
-          gap: 15px;
+      /* --- Ajustes para la sección de alineaciones en móvil --- */
+      .lineup-list-container {
+        padding: 15px 10px; /* Reducimos el padding del contenedor */
       }
-      .player-card-simple { justify-content: center; }
-      .separator { display: none; }
-      .player-card-simple .name { font-size: 0.9rem; }
+      .position-group {
+        gap: 15px 5px; /* Reducimos el espacio entre elementos de la cuadrícula */
+        min-width: 500px; /* Forzamos un ancho mínimo para que el grid no se colapse */
+      }
+      .player-card-simple img {
+        width: 45px; /* Reducimos el tamaño de las imágenes */
+        height: 45px;
+      }
+      .player-card-simple .name {
+        font-size: 0.8rem; /* Reducimos el tamaño de la fuente de los nombres */
+      }
+      .separator {
+        font-size: 0.75rem; /* Reducimos el tamaño de la fuente del separador */
+        padding: 0 10px; /* Reducimos el espacio del separador */
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER Y TABLAS (Sin cambios) -->
+  <!-- El resto del HTML no necesita cambios -->
   <header class="main-header" id="main-header">
     <div class="container">
         <a href="index.html">
@@ -257,7 +276,6 @@
         <h3>⏳ Jugadores con contrato hasta 2025</h3><div class="table-container"><table><thead><tr><th>Jugador</th><th>Posición</th><th>Fin de contrato</th></tr></thead><tbody><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p435249/256x278/p435249_t189_2024_1_001_000.png" class="player-photo" alt="Miquel Parera">Miquel Parera</td><td data-label="Posición">Portero</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p456871/512x512/p456871_t189_2024_1_003_000.png" class="player-photo" alt="Pol Moreno">Pol Moreno</td><td data-label="Posición">Defensa</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p60757/512x512/p60757_t189_2024_1_003_000.png" class="player-photo" alt="Lago Junior">Lago Junior</td><td data-label="Posición">Centrocampista</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p169070/512x512/p169070_t189_2024_1_003_000.png" class="player-photo" alt="Marco Sangalli">Marco Sangalli</td><td data-label="Posición">Centrocampista</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p434912/512x512/p434912_t189_2024_1_003_000.png" class="player-photo" alt="Ekain">Ekain</td><td data-label="Posición">Delantero</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr></tbody></table></div>
     </section>
 
-    <!-- ===== ✅ SECCIÓN DE ALINEACIONES CON TEXTO ACTUALIZADO ===== -->
     <section>
         <h3>🏆 Posibles Alineaciones (Contratos 2026+)</h3>
         <div class="lineup-list-container">
@@ -312,7 +330,6 @@
     <p>Racing de Santander © Temporada 2025/26 – Actualizado en junio de 2025</p>
   </footer>
 
-  <!-- SCRIPT (Sin cambios) -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
         const hamburgerBtn = document.getElementById('hamburger-btn');
