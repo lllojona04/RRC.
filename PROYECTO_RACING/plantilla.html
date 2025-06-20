@@ -129,23 +129,31 @@
         border-radius: 10px;
         padding: 20px;
         border: 1px solid rgba(255,255,255,0.1);
-        overflow-x: auto; /* Permite scroll horizontal si es necesario */
     }
     
+    /* ✅ Estructura contenedora para cada grupo de posición */
     .position-group {
         margin-bottom: 30px;
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        gap: 20px 15px;
-        align-items: center;
     }
     .position-group:last-child { margin-bottom: 0; }
     
     .position-group h4 {
         color: var(--accent-yellow); font-size: 1.1rem; text-transform: uppercase;
         border-bottom: 1px solid var(--accent-yellow); padding-bottom: 10px;
-        grid-column: 1 / -1; 
-        margin-bottom: 0;
+        margin-bottom: 20px;
+    }
+
+    /* ✅ Contenedor del grid de jugadores para PC */
+    .position-group-grid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 20px 15px;
+        align-items: center;
+    }
+
+    /* ✅ Contenedor para cada par de jugadores */
+    .player-pair {
+        display: contents; /* Se comporta como si no existiera en el grid de PC */
     }
 
     .player-card-simple { display: flex; align-items: center; gap: 12px; }
@@ -153,12 +161,11 @@
     .player-card-simple .name { color: var(--white); font-weight: 600; font-size: 1rem; }
     
     .separator { 
-        color: rgba(255, 255, 255, 0.7); 
-        font-style: italic; 
-        font-size: 0.9rem;
+        color: var(--accent-yellow);
+        font-weight: 700;
+        font-size: 1.2rem;
         text-align: center;
-        white-space: nowrap;
-        padding: 0 30px; 
+        padding: 0 20px;
     }
 
     footer { text-align: center; padding: 20px; background-color: #005230; color: white; margin-top: 30px; font-size: 0.8em; }
@@ -175,16 +182,15 @@
     @media (max-width: 992px) {
         .main-nav { display: none; }
     }
-
-    /* ==================================================================== */
-    /* ===== ✅ BLOQUE RESPONSIVE MODIFICADO PARA MANTENER EL DISEÑO ===== */
-    /* ==================================================================== */
+    
+    /* ✅ ========================================================== */
+    /* ===== BLOQUE RESPONSIVE PARA MÓVIL TOTALMENTE REHECHO ===== */
+    /* ✅ ========================================================== */
     @media (max-width: 767px) {
       .page-title-plantilla h1 { font-size: 1.6em; }
       .page-title-plantilla h2 { font-size: 0.9em; }
       
-      /* Estilos para la tabla responsive (sin cambios) */
-      .table-container { overflow-x: hidden; padding: 0; background-color: transparent; box-shadow: none; }
+      .table-container { overflow-x: hidden; }
       table { border: 0; }
       thead { display: none; }
       tr { display: block; margin-bottom: 15px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #ddd; }
@@ -195,31 +201,43 @@
       td.player-name::before { display: none; }
       .player-photo { width: 50px; height: 50px; }
       
-      /* --- Ajustes para la sección de alineaciones en móvil --- */
       .lineup-list-container {
-        padding: 15px 10px; /* Reducimos el padding del contenedor */
+        padding: 15px;
       }
-      .position-group {
-        gap: 15px 5px; /* Reducimos el espacio entre elementos de la cuadrícula */
-        min-width: 500px; /* Forzamos un ancho mínimo para que el grid no se colapse */
-      }
-      .player-card-simple img {
-        width: 45px; /* Reducimos el tamaño de las imágenes */
-        height: 45px;
-      }
-      .player-card-simple .name {
-        font-size: 0.8rem; /* Reducimos el tamaño de la fuente de los nombres */
+      .position-group-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+        gap: 25px 15px;
       }
       .separator {
-        font-size: 0.75rem; /* Reducimos el tamaño de la fuente del separador */
-        padding: 0 10px; /* Reducimos el espacio del separador */
+        display: none; /* Ocultamos el separador en móvil */
+      }
+      .player-pair {
+          display: grid; /* Ahora el par es un sub-grid */
+          grid-template-columns: 1fr; /* Por defecto una columna */
+          gap: 20px;
+          grid-column: span 2; /* Hacemos que cada par ocupe el ancho completo */
+      }
+      .player-pair:not(.is-single) {
+          grid-template-columns: 1fr 1fr; /* Si no es single, tiene 2 columnas */
+          gap: 15px;
+      }
+      .player-pair.is-single .player-card-simple {
+          grid-column: 1 / -1; /* El jugador solo ocupa toda la fila del par */
+          justify-content: center; /* Lo centramos */
+      }
+      .player-card-simple img {
+        width: 50px;
+        height: 50px;
+      }
+      .player-card-simple .name {
+        font-size: 0.9rem;
+        white-space: normal; /* Permite que el nombre se parta si es largo */
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- El resto del HTML no necesita cambios -->
   <header class="main-header" id="main-header">
     <div class="container">
         <a href="index.html">
@@ -276,54 +294,74 @@
         <h3>⏳ Jugadores con contrato hasta 2025</h3><div class="table-container"><table><thead><tr><th>Jugador</th><th>Posición</th><th>Fin de contrato</th></tr></thead><tbody><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p435249/256x278/p435249_t189_2024_1_001_000.png" class="player-photo" alt="Miquel Parera">Miquel Parera</td><td data-label="Posición">Portero</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p456871/512x512/p456871_t189_2024_1_003_000.png" class="player-photo" alt="Pol Moreno">Pol Moreno</td><td data-label="Posición">Defensa</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p60757/512x512/p60757_t189_2024_1_003_000.png" class="player-photo" alt="Lago Junior">Lago Junior</td><td data-label="Posición">Centrocampista</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p169070/512x512/p169070_t189_2024_1_003_000.png" class="player-photo" alt="Marco Sangalli">Marco Sangalli</td><td data-label="Posición">Centrocampista</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p434912/512x512/p434912_t189_2024_1_003_000.png" class="player-photo" alt="Ekain">Ekain</td><td data-label="Posición">Delantero</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr></tbody></table></div>
     </section>
 
+    <!-- ✅ HTML con nueva estructura de "player-pair" para agrupar -->
     <section>
         <h3>🏆 Posibles Alineaciones (Contratos 2026+)</h3>
         <div class="lineup-list-container">
             <div class="position-group">
                 <h4>Portero</h4>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p195383/256x278/p195383_t189_2024_1_001_000.png" alt="Jokin Ezkieta"><span class="name">Jokin Ezkieta</span></div>
+                <div class="position-group-grid">
+                    <div class="player-pair is-single">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p195383/256x278/p195383_t189_2024_1_001_000.png" alt="Jokin Ezkieta"><span class="name">Jokin Ezkieta</span></div>
+                    </div>
+                </div>
             </div>
             <div class="position-group">
                 <h4>Defensas</h4>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p174955/512x512/p174955_t189_2024_1_003_000.png" alt="Saúl García"><span class="name">Saúl García</span></div>
-                <span class="separator">Pueden rotar</span>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p591409/512x512/p591409_t189_2024_1_003_000.png" alt="Mario García"><span class="name">Mario García</span></div>
-                
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p179372/512x512/p179372_t189_2024_1_003_000.png" alt="Manu Hernando"><span class="name">Manu Hernando</span></div>
-                <span class="separator">Pueden rotar</span>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p437821/512x512/p437821_t189_2024_1_003_000.png" alt="Javi Montero"><span class="name">Javi Montero</span></div>
-                
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p500285/512x512/p500285_t189_2024_1_003_000.png" alt="Álvaro Mantilla"><span class="name">Álvaro Mantilla</span></div>
-                <span class="separator">Pueden rotar</span>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p500810/512x512/p500810_t189_2024_1_003_000.png" alt="Javi Castro"><span class="name">Javi Castro</span></div>
-                
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p229605/512x512/p229605_t189_2024_1_003_000.png" alt="Clément Michelin"><span class="name">Clément Michelin</span></div>
+                <div class="position-group-grid">
+                    <div class="player-pair">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p174955/512x512/p174955_t189_2024_1_003_000.png" alt="Saúl García"><span class="name">Saúl García</span></div>
+                        <span class="separator">↔</span>
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p591409/512x512/p591409_t189_2024_1_003_000.png" alt="Mario García"><span class="name">Mario García</span></div>
+                    </div>
+                    <div class="player-pair">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p179372/512x512/p179372_t189_2024_1_003_000.png" alt="Manu Hernando"><span class="name">Manu Hernando</span></div>
+                        <span class="separator">↔</span>
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p437821/512x512/p437821_t189_2024_1_003_000.png" alt="Javi Montero"><span class="name">Javi Montero</span></div>
+                    </div>
+                    <div class="player-pair">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p500285/512x512/p500285_t189_2024_1_003_000.png" alt="Álvaro Mantilla"><span class="name">Álvaro Mantilla</span></div>
+                        <span class="separator">↔</span>
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p500810/512x512/p500810_t189_2024_1_003_000.png" alt="Javi Castro"><span class="name">Javi Castro</span></div>
+                    </div>
+                    <div class="player-pair is-single">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p229605/512x512/p229605_t189_2024_1_003_000.png" alt="Clément Michelin"><span class="name">Clément Michelin</span></div>
+                    </div>
+                </div>
             </div>
             <div class="position-group">
                 <h4>Centrocampistas</h4>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p464168/512x512/p464168_t189_2024_1_003_000.png" alt="Íñigo Sainz-Maza"><span class="name">Íñigo Sainz-Maza</span></div>
-                <span class="separator">Pueden rotar</span>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p513947/512x512/p513947_t189_2024_1_003_000.png" alt="Aritz Aldasoro"><span class="name">Aritz Aldasoro</span></div>
-
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p572069/512x512/p572069_t189_2024_1_003_000.png" alt="Maguette Gueye"><span class="name">Maguette Gueye</span></div>
-                <div></div> 
-                <div></div>
-
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p242833/512x512/p242833_t189_2024_1_003_000.png" alt="Íñigo Vicente"><span class="name">Íñigo Vicente</span></div>
+                <div class="position-group-grid">
+                    <div class="player-pair">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p464168/512x512/p464168_t189_2024_1_003_000.png" alt="Íñigo Sainz-Maza"><span class="name">Íñigo Sainz-Maza</span></div>
+                        <span class="separator">↔</span>
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p513947/512x512/p513947_t189_2024_1_003_000.png" alt="Aritz Aldasoro"><span class="name">Aritz Aldasoro</span></div>
+                    </div>
+                    <div class="player-pair is-single">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p572069/512x512/p572069_t189_2024_1_003_000.png" alt="Maguette Gueye"><span class="name">Maguette Gueye</span></div>
+                    </div>
+                    <div class="player-pair is-single">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p242833/512x512/p242833_t189_2024_1_003_000.png" alt="Íñigo Vicente"><span class="name">Íñigo Vicente</span></div>
+                    </div>
+                </div>
             </div>
              <div class="position-group">
                 <h4>Delanteros</h4>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p553751/512x512/p553751_t189_2024_1_003_000.png" alt="Juan Carlos Arana"><span class="name">Juan Carlos Arana</span></div>
-                <span class="separator">Pueden rotar</span>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p444284/512x512/p444284_t189_2024_1_003_000.png" alt="Andrés Martín"><span class="name">Andrés Martín</span></div>
-
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p517334/512x512/p517334_t189_2024_1_003_000.png" alt="Suleiman"><span class="name">Suleiman</span></div>
-                <span class="separator">Pueden rotar</span>
-                <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p588853/512x512/p588853_t189_2024_1_003_000.png" alt="Jeremy"><span class="name">Jeremy</span></div>
+                 <div class="position-group-grid">
+                    <div class="player-pair">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p553751/512x512/p553751_t189_2024_1_003_000.png" alt="Juan Carlos Arana"><span class="name">Juan Carlos Arana</span></div>
+                        <span class="separator">↔</span>
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p444284/512x512/p444284_t189_2024_1_003_000.png" alt="Andrés Martín"><span class="name">Andrés Martín</span></div>
+                    </div>
+                    <div class="player-pair">
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p517334/512x512/p517334_t189_2024_1_003_000.png" alt="Suleiman"><span class="name">Suleiman</span></div>
+                        <span class="separator">↔</span>
+                        <div class="player-card-simple"><img src="https://assets.laliga.com/squad/2024/t189/p588853/512x512/p588853_t189_2024_1_003_000.png" alt="Jeremy"><span class="name">Jeremy</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-
   </main>
   
   <footer>
