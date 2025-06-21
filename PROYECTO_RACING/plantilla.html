@@ -4,16 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plantilla Racing de Santander 2025/26 (Responsive)</title>
+    <!-- === ICONO PARA NAVEGADOR (CORREGIDO) === -->
+    <link rel="icon" type="image/png" href="./img/logo.png">
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/thumb/e/e5/Real_Racing_Club_de_Santander_logo.svg/1200px-Real_Racing_Club_de_Santander_logo.svg.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="./img/logo.png">
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/en/thumb/e/e5/Real_Racing_Club_de_Santander_logo.svg/1200px-Real_Racing_Club_de_Santander_logo.svg.png" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
   <style>
     /* --- RESET Y ESTILOS GLOBALES --- */
     :root {
         --racing-green: #006B3F;
         --accent-yellow: #f3ca20;
-        --bg-dark: #1a1a1a;
+        --bg-dark: #121212;
+        --bg-header: #1a1a1a;
         --white: #ffffff;
+        --border-color: #2a2a2a;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -26,9 +32,7 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    body.mobile-nav-open {
-        overflow: hidden;
-    }
+    body.mobile-nav-open { overflow: hidden; }
 
     .container {
         max-width: 1240px;
@@ -42,66 +46,77 @@
       padding: 15px 0; background-color: rgba(26, 26, 26, 0.7);
       backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid transparent;
-      transition: background-color 0.4s ease, border-bottom 0.4s ease;
+      transition: background-color 0.4s ease, border-color 0.4s ease, padding 0.4s ease;
     }
     .main-header.scrolled {
-        background-color: var(--bg-dark);
-        border-bottom: 1px solid #333;
+        background-color: var(--bg-header);
+        border-bottom: 1px solid var(--border-color);
     }
-    .main-header .container {
-      display: flex; justify-content: space-between; align-items: center;
+    .header-container {
+        width: 100%; max-width: none; padding: 0 40px;
+        display: flex; justify-content: space-between; align-items: center;
     }
     .logo { height: 50px; transition: transform 0.3s ease; }
-    .logo:hover { transform: scale(1.05); }
+    .logo-link:hover .logo { transform: scale(1.05); }
 
     .main-nav { display: none; }
     .main-nav .nav-links {
-      list-style: none; padding: 0; margin: 0; display: flex; gap: 30px;
+      list-style: none; padding: 0; margin: 0; display: flex; gap: 40px;
     }
     .main-nav a {
-      color: var(--white); text-decoration: none; font-weight: 600; font-size: 1rem;
-      padding: 8px 4px; position: relative; transition: color 0.3s;
+      color: var(--white); text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.9rem;
+      padding: 5px 0; position: relative; transition: color 0.3s;
     }
     .main-nav a::after {
-      content: ''; position: absolute; width: 100%; height: 3px;
-      background: var(--accent-yellow); bottom: -5px; left: 0;
-      transform: scaleX(0); transform-origin: right;
-      transition: transform 0.3s ease-in-out;
+      content: ''; position: absolute; width: 0; height: 3px;
+      background: var(--accent-yellow); bottom: -5px; left: 50%;
+      transform: translateX(-50%); transition: width 0.4s ease;
     }
     .main-nav a:hover { color: var(--accent-yellow); }
-    .main-nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+    .main-nav a:hover::after { width: 100%; }
 
-    .hamburger-menu {
-        display: flex; background: none; border: none;
+    /* Botón de hamburguesa estático */
+    .hamburger-menu { 
+        display: flex;
+        background: none; border: none;
         color: var(--white); font-size: 1.8rem; cursor: pointer; padding: 5px;
     }
 
+    /* --- MENÚ MÓVIL CON BOTÓN DE CIERRE (X) --- */
     .mobile-nav-overlay {
         position: fixed; top: 0; right: -100%; width: 100%;
-        max-width: 400px; height: 100%; background-color: var(--bg-dark);
-        z-index: 1001; transition: right 0.4s ease-in-out;
+        max-width: 400px; height: 100%; background-color: var(--bg-header);
+        z-index: 1001; transition: right 0.4s cubic-bezier(0.77, 0, 0.18, 1);
         box-shadow: -5px 0 15px rgba(0,0,0,0.3);
     }
     .mobile-nav-overlay.is-open { right: 0; }
     .mobile-nav-header {
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 15px 25px; border-bottom: 1px solid #252525; height: 81px;
+        display: flex;
+        justify-content: space-between; /* Logo a la izq, X a la der */
+        align-items: center;
+        padding: 15px 25px;
+        border-bottom: 1px solid var(--border-color);
+        height: 81px;
     }
-    .mobile-nav-header .logo { height: 45px; width: auto; }
+    .mobile-nav-header .logo { height: 45px; }
+    
     .close-menu {
         font-size: 2.5rem; font-weight: 300; color: var(--white);
-        cursor: pointer; background: none; border: none; padding: 0; line-height: 1;
+        cursor: pointer; background: none; border: none; padding: 0;
+        line-height: 1; transition: color 0.3s, transform 0.3s;
     }
+    .close-menu:hover { color: var(--accent-yellow); transform: rotate(90deg); }
+    
     .mobile-nav-links ul { list-style: none; padding: 0; margin: 0; }
-    .mobile-nav-links ul li { border-bottom: 1px solid #252525; }
+    .mobile-nav-links ul li { border-bottom: 1px solid var(--border-color); }
     .mobile-nav-links a {
         display: block; padding: 20px 25px; color: var(--white);
         font-weight: 700; font-size: 1.1rem; text-decoration: none;
-        transition: background-color 0.3s, color 0.3s;
+        transition: background-color 0.3s, color 0.3s, padding-left 0.3s;
     }
-    .mobile-nav-links a:hover { color: var(--accent-yellow); background-color: #252525; }
+    .mobile-nav-links a:hover { color: var(--accent-yellow); background-color: #252525; padding-left: 30px; }
 
-    /* --- ESTILOS DE CONTENIDO PRINCIPAL --- */
+    /* --- ESTILOS DE CONTENIDO PRINCIPAL (SIN CAMBIOS) --- */
     main { padding-top: 30px; }
     .page-title-plantilla { text-align: center; color: white; padding: 10px 15px 30px 15px; }
     .page-title-plantilla h1 { font-size: 2.5em; margin: 0; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
@@ -126,15 +141,11 @@
     
     .lineup-list-container {
         background-color: rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-        padding: 20px;
+        border-radius: 10px; padding: 20px;
         border: 1px solid rgba(255,255,255,0.1);
     }
     
-    /* ✅ Estructura contenedora para cada grupo de posición */
-    .position-group {
-        margin-bottom: 30px;
-    }
+    .position-group { margin-bottom: 30px; }
     .position-group:last-child { margin-bottom: 0; }
     
     .position-group h4 {
@@ -142,32 +153,18 @@
         border-bottom: 1px solid var(--accent-yellow); padding-bottom: 10px;
         margin-bottom: 20px;
     }
-
-    /* ✅ Contenedor del grid de jugadores para PC */
-    .position-group-grid {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        gap: 20px 15px;
-        align-items: center;
-    }
-
-    /* ✅ Contenedor para cada par de jugadores */
-    .player-pair {
-        display: contents; /* Se comporta como si no existiera en el grid de PC */
-    }
-
-    .player-card-simple { display: flex; align-items: center; gap: 12px; }
+    .position-group-grid { display: flex; flex-direction: column; gap: 20px; }
+    .player-pair { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .player-pair.is-single { justify-content: center; }
+    .player-card-simple { display: flex; align-items: center; gap: 12px; flex-basis: 45%; }
+    .player-card-simple:first-of-type:not(:only-child) { justify-content: flex-start; }
+    .player-card-simple:last-of-type:not(:only-child) { justify-content: flex-end; flex-direction: row-reverse; }
+    .player-card-simple:last-of-type:not(:only-child) .name { text-align: right; }
     .player-card-simple img { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--white); }
     .player-card-simple .name { color: var(--white); font-weight: 600; font-size: 1rem; }
+    .separator { color: var(--accent-yellow); font-weight: 700; font-size: 1.2rem; flex-grow: 1; text-align: center; }
+    .player-pair.is-single .separator { display: none; }
     
-    .separator { 
-        color: var(--accent-yellow);
-        font-weight: 700;
-        font-size: 1.2rem;
-        text-align: center;
-        padding: 0 20px;
-    }
-
     footer { text-align: center; padding: 20px; background-color: #005230; color: white; margin-top: 30px; font-size: 0.8em; }
 
     /* --- REGLAS RESPONSIVE --- */
@@ -178,15 +175,13 @@
       .page-title-plantilla h2 { font-size: 1.4em; }
       .mascota-card { width: 220px; }
     }
-
     @media (max-width: 992px) {
         .main-nav { display: none; }
+        .header-container { padding: 0 30px; }
     }
     
-    /* ✅ ========================================================== */
-    /* ===== BLOQUE RESPONSIVE PARA MÓVIL TOTALMENTE REHECHO ===== */
-    /* ✅ ========================================================== */
     @media (max-width: 767px) {
+      .header-container { padding: 0 20px; }
       .page-title-plantilla h1 { font-size: 1.6em; }
       .page-title-plantilla h2 { font-size: 0.9em; }
       
@@ -201,75 +196,52 @@
       td.player-name::before { display: none; }
       .player-photo { width: 50px; height: 50px; }
       
-      .lineup-list-container {
-        padding: 15px;
-      }
-      .position-group-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
-        gap: 25px 15px;
-      }
-      .separator {
-        display: none; /* Ocultamos el separador en móvil */
-      }
-      .player-pair {
-          display: grid; /* Ahora el par es un sub-grid */
-          grid-template-columns: 1fr; /* Por defecto una columna */
-          gap: 20px;
-          grid-column: span 2; /* Hacemos que cada par ocupe el ancho completo */
-      }
-      .player-pair:not(.is-single) {
-          grid-template-columns: 1fr 1fr; /* Si no es single, tiene 2 columnas */
-          gap: 15px;
-      }
-      .player-pair.is-single .player-card-simple {
-          grid-column: 1 / -1; /* El jugador solo ocupa toda la fila del par */
-          justify-content: center; /* Lo centramos */
-      }
-      .player-card-simple img {
-        width: 50px;
-        height: 50px;
-      }
-      .player-card-simple .name {
-        font-size: 0.9rem;
-        white-space: normal; /* Permite que el nombre se parta si es largo */
-      }
+      .player-pair { flex-direction: column; gap: 10px; }
+      .player-card-simple { flex-basis: auto; width: 100%; justify-content: center !important; flex-direction: row !important; }
+      .player-card-simple .name { text-align: left !important; }
+      .separator { flex-grow: 0; transform: rotate(90deg); margin: 5px 0; }
     }
   </style>
 </head>
 <body>
+  
   <header class="main-header" id="main-header">
-    <div class="container">
-        <a href="index.html">
+    <div class="header-container">
             <img src="./img/logo.png" alt="Logo Real Racing Club" class="logo">
         </a>
         <nav class="main-nav">
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li class="active"><a href="plantilla.html">Plantilla 25/26</a></li>
+                <li><a href="plantilla.html">Plantilla</a></li>
                 <li><a href="historia.html">Historia</a></li>
                 <li><a href="entradas.html">Entradas</a></li>
             </ul>
         </nav>
-        <button id="hamburger-btn" class="hamburger-menu" aria-label="Abrir menú">
+        <button class="hamburger-menu" aria-label="Abrir menú">
             <i class="fas fa-bars"></i>
         </button>
     </div>
   </header>
-  <div class="mobile-nav-overlay" id="mobile-nav">
+  
+  <div class="mobile-nav-overlay">
+      <!-- ✅ HTML DEL MENÚ MÓVIL CON LA X -->
       <div class="mobile-nav-header">
-          <img src="./img/logo.png" alt="Logo Racing" class="logo">
-          <button class="close-menu" id="close-btn" aria-label="Cerrar menú">×</button>
+          <a href="index.html" class="logo-link">
+              <img src="./img/logo.png" alt="Logo Racing" class="logo">
+          </a>
+          <button class="close-menu" aria-label="Cerrar menú">×</button>
       </div>
       <nav class="mobile-nav-links">
           <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="plantilla.html">Plantilla 25/26</a></li>
-            <li><a href="historia.html"> Historia</a></li>
+            <li><a href="plantilla.html">Plantilla</a></li>
+            <li><a href="historia.html">Historia</a></li>
             <li><a href="entradas.html">Entradas</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
           </ul>
       </nav>
   </div>
+  
   <main>
     <div class="page-title-plantilla">
       <h1>Plantilla 2025/26</h1>
@@ -293,8 +265,6 @@
     <section>
         <h3>⏳ Jugadores con contrato hasta 2025</h3><div class="table-container"><table><thead><tr><th>Jugador</th><th>Posición</th><th>Fin de contrato</th></tr></thead><tbody><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p435249/256x278/p435249_t189_2024_1_001_000.png" class="player-photo" alt="Miquel Parera">Miquel Parera</td><td data-label="Posición">Portero</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p456871/512x512/p456871_t189_2024_1_003_000.png" class="player-photo" alt="Pol Moreno">Pol Moreno</td><td data-label="Posición">Defensa</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p60757/512x512/p60757_t189_2024_1_003_000.png" class="player-photo" alt="Lago Junior">Lago Junior</td><td data-label="Posición">Centrocampista</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p169070/512x512/p169070_t189_2024_1_003_000.png" class="player-photo" alt="Marco Sangalli">Marco Sangalli</td><td data-label="Posición">Centrocampista</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr><tr><td data-label="Jugador" class="player-name"><img src="https://assets.laliga.com/squad/2024/t189/p434912/512x512/p434912_t189_2024_1_003_000.png" class="player-photo" alt="Ekain">Ekain</td><td data-label="Posición">Delantero</td><td data-label="Fin de contrato" class="ending-soon">2025</td></tr></tbody></table></div>
     </section>
-
-    <!-- ✅ HTML con nueva estructura de "player-pair" para agrupar -->
     <section>
         <h3>🏆 Posibles Alineaciones (Contratos 2026+)</h3>
         <div class="lineup-list-container">
@@ -370,33 +340,43 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const hamburgerBtn = document.getElementById('hamburger-btn');
-        const closeBtn = document.getElementById('close-btn');
-        const mobileNavOverlay = document.getElementById('mobile-nav');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+        // ✅ SCRIPT ACTUALIZADO PARA EL NUEVO MENÚ MÓVIL
+        const hamburgerBtn = document.querySelector('.hamburger-menu');
+        const closeBtn = document.querySelector('.close-menu');
+        const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
         const body = document.body;
+
         const openNav = () => {
             if (mobileNavOverlay) {
                 mobileNavOverlay.classList.add('is-open');
                 body.classList.add('mobile-nav-open');
             }
         };
+
         const closeNav = () => {
             if (mobileNavOverlay) {
                 mobileNavOverlay.classList.remove('is-open');
                 body.classList.remove('mobile-nav-open');
             }
         };
+
         if (hamburgerBtn) { hamburgerBtn.addEventListener('click', openNav); }
         if (closeBtn) { closeBtn.addEventListener('click', closeNav); }
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', closeNav);
+        
+        mobileNavOverlay.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (body.classList.contains('mobile-nav-open')) {
+                    closeNav();
+                }
+            });
         });
+
+        // HEADER SCROLL
         const header = document.getElementById('main-header');
         if (header) {
             window.addEventListener('scroll', () => {
                 header.classList.toggle('scrolled', window.scrollY > 50);
-            });
+            }, { passive: true });
         }
     });
   </script>
